@@ -1,7 +1,7 @@
 {
-  "name": "veutify-cascader",
-  "version": "0.1.0",
-  "author": "Michael Wang<wangqiangshen@gmail.com>",
+  "name": "vuetify-cascader",
+  "version": "0.2.0",
+  "author": "skingwang",
   "license": "MIT",
   "main": "dist/VCascader.common.js",
   "homepage": "https://github.com/tookit/vuetify-cascader",
@@ -11,7 +11,7 @@
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name VCascader src/components/VCascader.vue",
-    "release": "semantic-release"
+    "release": "release-it"
   },
   "dependencies": {
     "n-ary-tree": "^0.4.0",
