@@ -32,9 +32,16 @@
 </template>
 <script>
 import { findPath } from 'n-ary-tree'
+import { VMenu, VTextField, VSheet } from 'vuetify/lib/components/'
 import VCascaderItem from './VCascaderItem.vue'
 export default {
   name: 'v-cascader',
+  components: {
+    VMenu,
+    VTextField,
+    VSheet,
+    VCascaderItem,
+  },
   props: {
     items: Array,
     label: String,
@@ -63,7 +70,6 @@ export default {
       default: () => [],
     },
   },
-  components: { VCascaderItem },
   computed: {
     selectedItems() {
       const search = parseInt(this.value)
@@ -103,9 +109,3 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.v-cascader__close {
-  position: absolute;
-  right: 0;
-}
-</style>

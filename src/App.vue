@@ -18,10 +18,15 @@
 </template>
 
 <script>
+import { VContainer, VRow, VCol, VApp } from 'vuetify/lib/components/'
 import VCascader from './components/VCascader.vue'
 
 export default {
   components: {
+    VApp,
+    VContainer,
+    VRow,
+    VCol,
     VCascader,
   },
 
