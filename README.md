@@ -18,9 +18,20 @@ npm install vuetify-cascader
 yarn add vuetify-cascader
 ```
 
+## Props
+
+|   Name    |  Type   | Default | Required? | Description                                        |
+| :-------: | :-----: | :-----: | :-------: | -------------------------------------------------- |
+|   items   |  Array  |   []    |     Y     |                                                    |
+| itemValue | String  |  value  |     N     | Set property of items’s value - must be primitive. |
+| itemText  | String  |  value  |     N     | Set property of items’s text value                 |
+| outlined  | Boolean |  false  |     N     | Applies the outlined style to the input            |
+|   label   | String  |  null   |     N     | Set input's label                                  |
+
+
 # Usage
 
-```
+```vue
 <template>
   <v-app id="app">
     <v-container>
@@ -56,54 +67,7 @@ export default {
           text: 'Phone',
           value: 'phone',
           children: [
-            {
-              id: 2,
-              text: 'IPhone',
-              value: 'iphone',
-              children: [
-                {
-                  id: 3,
-                  text: 'IPhone 12',
-                  value: 'iphone 12',
-                },
-                {
-                  id: 99,
-                  text: 'IPhone 8',
-                  value: 'iphone 8',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 11,
-          text: 'Computer',
-          value: 'computer',
-          children: [
-            {
-              id: 12,
-              text: 'Mac',
-              value: 'mac',
-              children: [
-                {
-                  id: 13,
-                  text: 'Mac Air',
-                  value: 'Mac air',
-                },
-              ],
-            },
-            {
-              id: 14,
-              text: 'PC',
-              value: 'PC',
-              children: [
-                {
-                  id: 15,
-                  text: 'Surface',
-                  value: 'surface ',
-                },
-              ],
-            },
+            ...
           ],
         },
       ],
@@ -112,8 +76,6 @@ export default {
   },
 }
 </script>
-
-
 ```
 
 For other uses see examples: https://github.com/tookit/vuetify-cascader/blob/master/src/App.vue
