@@ -22,7 +22,7 @@ yarn add vuetify-cascader
 
 |   Name    |  Type   | Default | Required? | Description                                        |
 | :-------: | :-----: | :-----: | :-------: | -------------------------------------------------- |
-|   items   |  Array  |   []    |     Y     |                                                    |
+|   items   |  Array  |   []    |     Y     | A nested data set                                  |
 | itemValue | String  |  value  |     N     | Set property of items’s value - must be primitive. |
 | itemText  | String  |  value  |     N     | Set property of items’s text value                 |
 | outlined  | Boolean |  false  |     N     | Applies the outlined style to the input            |

@@ -10,11 +10,11 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "build:lib": "vue-cli-service build --target lib --name VCascader src/components/VCascader.vue"
+    "build:lib": "vue-cli-service build --target lib --name VCascader src/components/VCascader.vue",
+    "release": "semantic-release"
   },
   "dependencies": {
     "n-ary-tree": "^0.4.0",
-    "semantic-release": "^17.4.0",
     "vuetify": "^2.4.5"
   },
   "devDependencies": {
@@ -34,6 +34,7 @@
     "sass": "^1.32.4",
     "sass-loader": "^10.1.1",
     "vue": "^2.6.12",
+    "semantic-release": "^17.4.0",
     "vue-cli-plugin-vuetify": "^2.2.0",
     "vue-template-compiler": "^2.6.12",
     "vuetify": "^2.4.5",
