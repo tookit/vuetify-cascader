@@ -4,7 +4,7 @@
       <v-list-item-group v-model="selectedItem" class="flex">
         <template v-for="item in items">
           <v-list-item :key="item.id" :value="item">
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
+            <v-list-item-title>{{ item[itemText] }}</v-list-item-title>
             <v-list-item-icon>
               <template v-if="item[childrenKey]">
                 <v-icon>mdi-chevron-right</v-icon>
