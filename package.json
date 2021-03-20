@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "n-ary-tree": "^0.4.0",
-    "vuetify": "^2.4.5"
+    "vuetify": "^2.4.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.10",

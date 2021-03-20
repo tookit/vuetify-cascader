@@ -1,7 +1,9 @@
 <template>
   <v-menu v-model="showMenu" :close-on-content-click="false" offset-y tile>
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-text-field
+        v-bind="attrs"
+        ref="text"
         :label="label"
         :placeholder="placeholder"
         hide-details
@@ -11,8 +13,6 @@
         :dense="dense"
         :outlined="outlined"
         v-on="on"
-        v-bind="attrs"
-        ref="text"
       />
     </template>
     <v-sheet>
@@ -20,22 +20,23 @@
         <v-cascader-item
           :items="items"
           :dense="dense"
+          :multiple="multiple"
           :selected-items="selectedItems"
-          @input="handleInput"
           :value.sync="value"
           :item-text="itemText"
           :item-value="itemValue"
+          @input="handleInput"
         />
       </div>
     </v-sheet>
   </v-menu>
 </template>
 <script>
-import { findPath } from 'n-ary-tree'
+import { findPath, findPathNodes } from 'n-ary-tree'
 import { VMenu, VTextField, VSheet } from 'vuetify/lib/components/'
 import VCascaderItem from './VCascaderItem.vue'
 export default {
-  name: 'v-cascader',
+  name: 'VCascader',
   components: {
     VMenu,
     VTextField,
@@ -49,6 +50,7 @@ export default {
     name: String,
     dense: Boolean,
     outlined: Boolean,
+    multiple: Boolean,
     childrenKey: {
       type: String,
       default: 'children',
@@ -70,19 +72,13 @@ export default {
       default: () => [],
     },
   },
+  data() {
+    return {
+      showMenu: false,
+      selectedItems: null,
+    }
+  },
   computed: {
-    selectedItems() {
-      const search = parseInt(this.value)
-      return this.items
-        .map((item) => {
-          return findPath(item, search, {
-            value: this.itemValue,
-            children: this.childrenKey,
-          })
-        })
-        .filter((item) => item.length > 0)
-        .pop()
-    },
     inputValue() {
       return this.selectedItems
         ? this.selectedItems
@@ -93,18 +89,48 @@ export default {
   },
   watch: {
     value: {
-      handler() {},
+      handler(val) {
+        return (this.selectedItems = this.multiple
+          ? this.findPathNodes(val)
+          : this.findPath(val))
+      },
+      deep: true,
       immediate: true,
     },
   },
-  data() {
-    return {
-      showMenu: false,
-    }
-  },
   methods: {
     handleInput(val) {
+      if (this.multiple) {
+        this.selectedItems = this.findPathNodes(val)
+      }
       this.$emit('input', val)
+    },
+    findPath(id) {
+      return id
+        ? this.items
+            .map((item) => {
+              return findPath(item, id, {
+                value: this.itemValue,
+                children: this.childrenKey,
+              })
+            })
+            .filter((item) => item.length > 0)
+            .pop()
+        : []
+    },
+    findPathNodes(val) {
+      return val
+        ? this.items
+            .map((item) => {
+              const find = findPathNodes(item, val, {
+                value: this.itemValue,
+                children: this.childrenKey,
+              })
+              return find
+            })
+            .filter((item) => item.length > 0)
+            .pop()
+        : []
     },
   },
 }
