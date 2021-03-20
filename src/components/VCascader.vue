@@ -33,7 +33,7 @@
   </v-menu>
 </template>
 <script>
-import { findPath, findPathNodes } from 'n-ary-tree'
+import { findPath } from 'n-ary-tree'
 import { VMenu, VTextField, VSheet } from 'vuetify/lib/components/'
 import VCascaderItem from './VCascaderItem.vue'
 export default {
@@ -102,12 +102,11 @@ export default {
   },
   methods: {
     initValue(val) {
-      // console.log(val)
-      // this.selectedItems = this.findPathNodes
       this.selectedItems = this.findPath(val)
       this.selectedItems.forEach((item, depth) => {
-        if (item.children) {
-          this.childrens[depth + 1] = item.children
+        const children = item[this.childrenKey]
+        if (children) {
+          this.childrens[depth + 1] = children
         }
       })
     },
@@ -133,7 +132,7 @@ export default {
     },
     // rebuild
     handleItemSelect({ item, depth }) {
-      const childrens = item.children
+      const childrens = item[this.childrenKey]
       this.$set(this.selectedItems, depth, item)
       // reset all grand child
       const grandDep = depth + 1
