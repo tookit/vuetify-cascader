@@ -15,19 +15,20 @@
         v-on="on"
       />
     </template>
-    <v-sheet>
-      <div class="v-cascader">
+    <v-sheet class="d-flex">
+      <template v-for="(children, dep) in childrens">
         <v-cascader-item
-          :items="items"
+          :key="dep + 1"
+          :items="children"
+          :depth="dep"
           :dense="dense"
+          :value="selectedItems[dep]"
           :multiple="multiple"
-          :selected-items="selectedItems"
-          :value.sync="value"
           :item-text="itemText"
           :item-value="itemValue"
-          @input="handleInput"
+          @select="handleItemSelect"
         />
-      </div>
+      </template>
     </v-sheet>
   </v-menu>
 </template>
@@ -51,6 +52,7 @@ export default {
     dense: Boolean,
     outlined: Boolean,
     multiple: Boolean,
+    returnObject: Boolean,
     childrenKey: {
       type: String,
       default: 'children',
@@ -75,36 +77,41 @@ export default {
   data() {
     return {
       showMenu: false,
-      selectedItems: null,
+      currentDepth: 0,
+      selectedItems: [],
+      childrens: [this.items], // [[],[]]
     }
   },
   computed: {
     inputValue() {
-      return this.selectedItems
-        ? this.selectedItems
-            .map((item) => item[this.itemText])
-            .join(this.seperator)
-        : null
+      const input = this.selectedItems
+        .filter((item) => item !== null)
+        .map((item) => item[this.itemText])
+        .join(this.seperator)
+      return input
     },
   },
   watch: {
     value: {
       handler(val) {
-        return (this.selectedItems = this.multiple
-          ? this.findPathNodes(val)
-          : this.findPath(val))
+        this.initValue(val)
       },
       deep: true,
       immediate: true,
     },
   },
   methods: {
-    handleInput(val) {
-      if (this.multiple) {
-        this.selectedItems = this.findPathNodes(val)
-      }
-      this.$emit('input', val)
+    initValue(val) {
+      // console.log(val)
+      // this.selectedItems = this.findPathNodes
+      this.selectedItems = this.findPath(val)
+      this.selectedItems.forEach((item, depth) => {
+        if (item.children) {
+          this.childrens[depth + 1] = item.children
+        }
+      })
     },
+
     findPath(id) {
       return id
         ? this.items
@@ -118,19 +125,32 @@ export default {
             .pop()
         : []
     },
-    findPathNodes(val) {
-      return val
-        ? this.items
-            .map((item) => {
-              const find = findPathNodes(item, val, {
-                value: this.itemValue,
-                children: this.childrenKey,
-              })
-              return find
-            })
-            .filter((item) => item.length > 0)
-            .pop()
-        : []
+    computeValue() {
+      const value = this.multiple
+        ? this.selectedItems.map((item) => item[this.itemValue])
+        : this.selectedItems[this.selectedItems.length - 1][this.itemValue]
+      return value
+    },
+    // rebuild
+    handleItemSelect({ item, depth }) {
+      const childrens = item.children
+      this.$set(this.selectedItems, depth, item)
+      // reset all grand child
+      const grandDep = depth + 1
+      this.$set(this.childrens, grandDep, childrens) // make array reactive
+      for (let i = 0; i < this.childrens.length; i++) {
+        if (i > grandDep) {
+          this.childrens[i] = []
+        }
+      }
+      this.childrens = this.childrens.filter((item) => item && item.length > 0)
+      for (let i = 0; i < this.selectedItems.length; i++) {
+        if (i > depth) {
+          this.selectedItems[i] = null
+        }
+      }
+      this.selectedItems = this.selectedItems.filter((item) => item !== null)
+      this.$emit('input', this.computeValue())
     },
   },
 }
