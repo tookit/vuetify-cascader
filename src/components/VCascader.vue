@@ -12,6 +12,8 @@
         :value="inputValue"
         :dense="dense"
         :outlined="outlined"
+        :clearable="clearable"
+        @click:clear="handleClickClearable"
         v-on="on"
       />
     </template>
@@ -52,6 +54,7 @@ export default {
     dense: Boolean,
     outlined: Boolean,
     multiple: Boolean,
+    clearable: Boolean,
     returnObject: Boolean,
     childrenKey: {
       type: String,
@@ -150,6 +153,9 @@ export default {
       }
       this.selectedItems = this.selectedItems.filter((item) => item !== null)
       this.$emit('input', this.computeValue())
+    },
+    handleClickClearable(e) {
+      this.$emit('input', null)
     },
   },
 }

@@ -9,6 +9,7 @@
             item-value="id"
             item-text="text"
             :items="items"
+            clearable
             outlined
           />
         </v-col>
