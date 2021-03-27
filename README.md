@@ -2,6 +2,8 @@
 
 A missing cascader select for vuetify
 
+This repo will be archived, please migrate to [https://github.com/tookit/vmajs]
+
 # Demo
 
 http://vma.isocked.com/#/element/cascader/
@@ -27,7 +29,6 @@ yarn add vuetify-cascader
 | itemText  | String  |  value  |     N     | Set property of items’s text value                 |
 | outlined  | Boolean |  false  |     N     | Applies the outlined style to the input            |
 |   label   | String  |  null   |     N     | Set input's label                                  |
-
 
 # Usage
 
